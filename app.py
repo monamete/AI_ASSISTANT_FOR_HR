@@ -6,7 +6,7 @@ from search_faiss import search_document
 import faiss
 import pickle
 
-# Load FAISS index and associated texts (you should've saved these during indexing)
+
 index = faiss.read_index("faiss_index.idx")
 with open("all_texts.pkl", "rb") as f:
     all_texts = pickle.load(f)
@@ -32,7 +32,7 @@ choice = st.sidebar.selectbox("Choose Action", menu)
 st.sidebar.markdown("---")
 st.sidebar.info("Built with ❤️ using Streamlit, XGBoost, FAISS, and Scikit-Learn")
 
-# ========== ATTRITION PREDICTION ==========
+#  ATTRITION PREDICTION 
 if choice == "Predict Attrition":
     st.subheader("🔎 Attrition Prediction")
 
@@ -50,16 +50,16 @@ if choice == "Predict Attrition":
         submit_button = st.form_submit_button(label="Predict Attrition")
 
     if submit_button:
-        # Encode categorical features
+    
         dept_encoded = le_department.transform([department])[0]
         role_encoded = le_role.transform([role])[0]
         edu_encoded = le_education.transform([education])[0]
 
-        # Prepare input
+   
         input_data = np.array([[age, salary, years_at_company, last_rating, dept_encoded, role_encoded, edu_encoded]])
         input_scaled = scaler.transform(input_data)
 
-        # Prediction
+      
         pred = attr_model.predict(input_scaled)[0]
         pred_proba = attr_model.predict_proba(input_scaled)[0]
 
@@ -68,7 +68,7 @@ if choice == "Predict Attrition":
         else:
             st.success(f"✅ Low Attrition Risk (Confidence: {pred_proba[0]*100:.2f}%)")
 
-# ========== PERFORMANCE PREDICTION ==========
+# PERFORMANCE PREDICTION
 elif choice == "Predict Performance Score":
     st.subheader("📈 Performance Prediction")
 
@@ -86,21 +86,20 @@ elif choice == "Predict Performance Score":
         submit_button = st.form_submit_button(label="Predict Performance")
 
     if submit_button:
-        # Encode categorical features
+   
         dept_encoded = le_department.transform([department])[0]
         role_encoded = le_role.transform([role])[0]
         edu_encoded = le_education.transform([education])[0]
 
-        # Prepare input
         input_data = np.array([[age, salary, years_at_company, last_rating, dept_encoded, role_encoded, edu_encoded]])
         input_scaled = scaler.transform(input_data)
 
-        # Prediction
+      
         pred = perf_model.predict(input_scaled)[0]
 
         st.success(f"🏆 Predicted Performance Score: {pred:.2f} / 100")
 
-# ========== HR POLICY Q&A ==========
+#HR POLICY Q&A 
 elif choice == "HR Policy Q&A":
     st.subheader("📚 HR Policy Q&A")
 

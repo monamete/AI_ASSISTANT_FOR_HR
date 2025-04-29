@@ -2,7 +2,7 @@
 
 import numpy as np
 import faiss
-from create_embeddings import create_embeddings  # <- plain import, works fine
+from create_embeddings import create_embeddings  
 import os
 
 def load_embeddings(filename=r"embeddings.npy"):
@@ -31,7 +31,7 @@ def search_document(query, index, all_texts, top_k=3):
     return results
 
 if __name__ == "__main__":
-    # Load original texts and embeddings
+   
     texts = [
         "This is a sample document.",
         "FAISS is an efficient similarity search library.",
@@ -40,10 +40,10 @@ if __name__ == "__main__":
     
     embeddings = load_embeddings()
     
-    # Create a FAISS index
+
     index = create_faiss_index(embeddings)
     
-    # Example query
+
     query = "What is FAISS?"
     results = search_document(query, index, texts, top_k=2)
     
